@@ -1,0 +1,10 @@
+LICENCE
+README.md
+setup.py
+src/ScrapySub/__init__.py
+src/ScrapySub/scrape_web.py
+src/ScrapySub.egg-info/PKG-INFO
+src/ScrapySub.egg-info/SOURCES.txt
+src/ScrapySub.egg-info/dependency_links.txt
+src/ScrapySub.egg-info/top_level.txt
+tests/test_scrape_web.py
