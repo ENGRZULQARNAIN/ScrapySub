@@ -7,4 +7,11 @@ src/ScrapySub.egg-info/PKG-INFO
 src/ScrapySub.egg-info/SOURCES.txt
 src/ScrapySub.egg-info/dependency_links.txt
 src/ScrapySub.egg-info/top_level.txt
+src/scrapysub/__init__.py
+src/scrapysub/scrape_web.py
+src/scrapysub.egg-info/PKG-INFO
+src/scrapysub.egg-info/SOURCES.txt
+src/scrapysub.egg-info/dependency_links.txt
+src/scrapysub.egg-info/requires.txt
+src/scrapysub.egg-info/top_level.txt
 tests/test_scrape_web.py

@@ -1,7 +1,7 @@
 Metadata-Version: 2.1
-Name: ScrapySub
-Version: 0.1.1
-Summary: A simple web scraper
+Name: scrapysub
+Version: 0.1.2
+Summary: ScrapySub is a Python library designed to recursively scrape website content, including subpages. It fetches the visible text from web pages and stores it in a structured format for easy access and analysis. This library is particularly useful for NLP and AI developers who need to gather large amounts of web content for their projects.
 Home-page: https://github.com/ENGRZULQARNAIN/ScrapySub
 Author: ZULQAR NAIN
 Author-email: zulqarnainhumbly258@gmail.com
@@ -12,12 +12,122 @@ Classifier: Operating System :: OS Independent
 Requires-Python: >=3.6
 Description-Content-Type: text/markdown
 License-File: LICENCE
+Requires-Dist: requests>=2.25.1
+Requires-Dist: beautifulsoup4>=4.9.3
+Requires-Dist: langchain_core>=0.0.0
+Requires-Dist: aiohttp>=3.7.4
+Requires-Dist: tqdm>=4.59.0
+Requires-Dist: langchain_corefake_useragent>=0.1.11
 
-# ScrapySub
+Here's a detailed documentation for `ScrapySub` to include in your `README.md` file for GitHub and PyPI:
 
-A simple web scraper that extracts text content from a given URL and its subpages.
+---
+
+# scrapysub
+
+ScrapySub is a Python library designed to recursively scrape website content, including subpages. It fetches the visible text from web pages and stores it in a structured format for easy access and analysis. This library is particularly useful for NLP and AI developers who need to gather large amounts of web content for their projects.
+
+## Features
+
+- **Recursive Scraping:** Automatically follows and scrapes links within the same domain.
+- **Custom User-Agent:** Mimics browser requests to avoid being blocked by websites.
+- **Error Handling:** Retries failed requests and handles common HTTP errors.
+- **Metadata Storage:** Stores additional metadata about the scraped content.
+- **Politeness:** Adds a delay between requests to avoid overwhelming servers.
 
 ## Installation
 
+Install ScrapySub using pip:
+
 ```sh
-pip install ScrapySub
+pip install scrapysub
+```
+
+## Usage
+
+Here's a quick example to get you started with ScrapySub:
+
+```python
+from scrapysub import ScrapWeb
+
+# Initialize the scraper
+scraper = ScrapWeb()
+
+# Start scraping from the given URL
+url = "https://myportfolio-five-tau.vercel.app/"
+scraper.scrape(url)
+
+# Get all the scraped documents
+documents = scraper.get_all_documents()
+
+# Print the content of each document
+for doc in documents:
+    print(f"URL: {doc.metadata['url']}")
+    print(f"Content: {doc.page_content[:200]}...")  # Print the first 200 characters
+    print()
+```
+
+## Detailed Example
+
+### Importing Required Libraries
+
+```python
+from scrapysub import ScrapWeb, Document
+```
+
+### Initializing the Scraper
+
+```python
+scraper = ScrapWeb()
+```
+
+### Starting the Scraping Process
+
+```python
+url = "https://myportfolio-five-tau.vercel.app/"
+scraper.scrape(url)
+```
+
+### Accessing Scraped Documents
+
+```python
+documents = scraper.get_all_documents()
+
+for doc in documents:
+    print(f"URL: {doc.metadata['url']}")
+    print(f"Content: {doc.page_content[:200]}...")  # Print the first 200 characters
+    print()
+```
+
+## Class and Method Details
+
+### ScrapWeb Class
+
+- `__init__(self)`: Initializes the scraper with a session and custom headers.
+- `fetch_page(self, url)`: Fetches the HTML content of the given URL with retries and error handling.
+- `scrape_text(self, html_content)`: Extracts visible text from the HTML content.
+- `tag_visible(self, element)`: Helper method to filter out non-visible elements.
+- `get_links(self, url, html_content)`: Finds all valid links on the page within the same domain.
+- `is_valid_url(self, url, base_url)`: Checks if a URL is valid and belongs to the same domain.
+- `scrape(self, url)`: Recursively scrapes the given URL and its subpages.
+- `get_all_documents(self)`: Returns all scraped documents.
+
+### Document Class
+
+- `__init__(self, page_content, **kwargs)`: Stores the text content and metadata of a web page.
+
+## Error Handling
+
+ScrapySub handles common HTTP errors by retrying failed requests with a delay. If a request fails multiple times, it logs the error and continues with the next URL.
+
+## Contributing
+
+Contributions are welcome! Please submit a pull request or open an issue to discuss your ideas.
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+## Contact
+
+For any questions or suggestions, feel free to reach out to the [maintainer](mailto:zulqarnainhumbly258@gmail.com).

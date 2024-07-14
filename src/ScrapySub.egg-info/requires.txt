@@ -1,0 +1,6 @@
+requests>=2.25.1
+beautifulsoup4>=4.9.3
+langchain_core>=0.0.0
+aiohttp>=3.7.4
+tqdm>=4.59.0
+langchain_corefake_useragent>=0.1.11

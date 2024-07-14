@@ -5,17 +5,12 @@ import requests
 from bs4 import BeautifulSoup, Comment
 from urllib.parse import urljoin, urlparse
 import time
-
+import random
 
 class Document(Serializable):
     """Class for storing a piece of text and associated metadata."""
-
     page_content: str
-    """String text."""
     metadata: dict = Field(default_factory=dict)
-    """Arbitrary metadata about the page content (e.g., source, relationships to other
-        documents, etc.).
-    """
     type: Literal["Document"] = "Document"
 
     def __init__(self, page_content: str, **kwargs: Any) -> None:
@@ -32,20 +27,26 @@ class Document(Serializable):
         """Get the namespace of the langchain object."""
         return ["langchain", "schema", "document"]
 
-
 class ScrapWeb:
     def __init__(self):
         self.visited_urls = set()
         self.documents = []
+        self.session = requests.Session()
+        self.session.headers.update({
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3"
+        })
 
     def fetch_page(self, url):
-        try:
-            response = requests.get(url)
-            response.raise_for_status()
-            return response.text
-        except requests.RequestException as e:
-            print(f"Failed to fetch {url}: {e}")
-            return None
+        retries = 3
+        for _ in range(retries):
+            try:
+                response = self.session.get(url)
+                response.raise_for_status()
+                return response.text
+            except requests.RequestException as e:
+                print(f"Failed to fetch {url}: {e}")
+                time.sleep(random.uniform(1, 3))  # Wait before retrying
+        return None
 
     def scrape_text(self, html_content):
         soup = BeautifulSoup(html_content, 'html.parser')
